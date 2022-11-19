@@ -88,7 +88,7 @@ function onMouseDown(event) {
       newElement.setAttribute("cy", rectStartY);
       break;
     case "path":
-      bufferSize = 8;
+      bufferSize = 4;
       newElement = document.createElementNS(svgNS, "path");
       newElement.setAttribute("fill", fill);
       newElement.setAttribute("stroke", stroke);
@@ -98,8 +98,6 @@ function onMouseDown(event) {
       appendToBuffer(pt);
       strPath = "M" + pt.x + " " + pt.y;
       newElement.setAttribute("d", strPath);
-      console.log(strPath);
-      console.log(pt);
       break;
     default:
       return;
@@ -151,7 +149,7 @@ function getMousePosition(e) {
 
 function appendToBuffer(pt) {
   buffer.push(pt);
-  while (buffer.length > bufferSize * 2) {
+  while (buffer.length > bufferSize * 1.4) {
     buffer.shift();
   }
 }
