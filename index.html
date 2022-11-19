@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>SVG Paint</title>
+  </head>
+  <body>
+    <nav>
+      <span data-type="selectTool" class="selectTool button">Cursor</span>
+      <span data-type="line" class="button">Line</span>
+      <span data-type="rect" class="button">Rectangle</span>
+      <span data-type="circle" class="button">Circle</span>
+      <span data-type="ellipse" class="button">Ellipse</span>
+      <span data-type="freeHand" class="button">Free Hand</span>
+      <span data-type="clearCanvas" class="button">Clear</span>
+    </nav>
+    <div class="lineSpace">
+      <svg
+        data-type="canvas"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        id="drawingBoard"
+        x="0px"
+        y="0px"
+        width="1050"
+        height="450"
+        viewBox="0 0 1050 450"
+        enable-background="new 0 0 1050 450"
+        xml:space="preserve"
+      ></svg>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
