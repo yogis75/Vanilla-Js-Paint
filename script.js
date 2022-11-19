@@ -17,6 +17,9 @@ var bRect = drawingBoard.getBoundingClientRect();
 var stroke = "black";
 var strokeWidth = 2;
 var fill = "none";
+var bufferSize;
+var strPath;
+var buffer = [];
 
 document.addEventListener("click", function (e) {
   var itemType = e.target.dataset.type;
@@ -58,6 +61,7 @@ function onMouseDown(event) {
       newElement.setAttribute("x2", x2);
       newElement.setAttribute("y2", y2);
       newElement.setAttribute("stroke", stroke);
+      newElement.setAttribute("stroke-width", strokeWidth);
       break;
     case "rect":
       newElement = document.createElementNS(svgNS, "rect");
@@ -83,7 +87,20 @@ function onMouseDown(event) {
       newElement.setAttribute("cx", rectStartX);
       newElement.setAttribute("cy", rectStartY);
       break;
-
+    case "path":
+      bufferSize = 8;
+      newElement = document.createElementNS(svgNS, "path");
+      newElement.setAttribute("fill", fill);
+      newElement.setAttribute("stroke", stroke);
+      newElement.setAttribute("stroke-width", strokeWidth);
+      buffer = [];
+      var pt = getMousePosition(event);
+      appendToBuffer(pt);
+      strPath = "M" + pt.x + " " + pt.y;
+      newElement.setAttribute("d", strPath);
+      console.log(strPath);
+      console.log(pt);
+      break;
     default:
       return;
   }
@@ -114,12 +131,65 @@ function onMouseMove(event) {
       case "circle":
         newElement.setAttribute("r", width);
         break;
+      case "path":
+        appendToBuffer(getMousePosition(event));
+        updateSvgPath();
     }
   }
 }
 
 function onMouseUp(event) {
   drawing = false;
+}
+
+function getMousePosition(e) {
+  return {
+    x: e.clientX - bRect.left,
+    y: e.clientY - bRect.top,
+  };
+}
+
+function appendToBuffer(pt) {
+  buffer.push(pt);
+  while (buffer.length > bufferSize * 2) {
+    buffer.shift();
+  }
+}
+
+function getAveragePoint(offset) {
+  var len = buffer.length;
+  if (len % 2 === 1 || len > bufferSize) {
+    var totalX = 0;
+    var totalY = 0;
+    var pt, i;
+    var count = 0;
+    for (i = offset; i < len; i++) {
+      count++;
+      pt = buffer[i];
+      totalX += pt.x;
+      totalY += pt.y;
+    }
+    return {
+      x: totalX / count,
+      y: totalY / count,
+    };
+  }
+  return null;
+}
+
+function updateSvgPath() {
+  var pt = getAveragePoint(0);
+
+  if (pt) {
+    strPath += " L" + pt.x + " " + pt.y;
+    var tmpPath = "";
+    for (var offset = 2; offset < buffer.length; offset += 2) {
+      pt = getAveragePoint(offset);
+      tmpPath += " L" + pt.x + " " + pt.y;
+    }
+
+    newElement.setAttribute("d", strPath + tmpPath);
+  }
 }
 
 function setup() {
