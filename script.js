@@ -11,8 +11,6 @@ var strokeSlider = document.querySelector("[data-type='strokeSlider']");
 var strokeSliderValue = document.querySelector(
   "[data-type='strokeSliderValue']"
 );
-var strokeColor = document.querySelector("[data-type='strokeColor']");
-var fillColor = document.querySelector("[data-type='fillColor']");
 
 var newElement;
 var elementType;
@@ -21,6 +19,8 @@ var rectStartY;
 var drawing = false;
 var bRect = drawingBoard.getBoundingClientRect();
 var strokeWidth = 2;
+var stroke = "black";
+var fill = "none";
 var bufferSize;
 var strPath;
 var buffer = [];
@@ -55,8 +55,6 @@ document.addEventListener("click", function (e) {
 
 function onMouseDown(event) {
   drawing = true;
-  var stroke = strokeColor.value;
-  var fill = fillColor.value;
   var x1 = event.clientX - bRect.left;
   var y1 = event.clientY - bRect.top;
   var x2 = event.clientX - bRect.left;
@@ -239,27 +237,61 @@ clearCanvas.addEventListener("click", function () {
   }
 });
 
-// var colorArr = [
-//   "#e6194B",
-//   "#3cb44b",
-//   "#ffe119",
-//   "#4363d8",
-//   "#f58231",
-//   "#911eb4",
-//   "#42d4f4",
-//   "#f032e6",
-//   "#bfef45",
-//   "#fabed4",
-//   "#469990",
-//   "#dcbeff",
-//   "#9A6324",
-//   "#fffac8",
-//   "#800000",
-//   "#aaffc3",
-//   "#808000",
-//   "#ffd8b1",
-//   "#000075",
-//   "#a9a9a9",
-//   "#ffffff",
-//   "#000000",
-// ];
+var colorArr = [
+  "#e6194B",
+  "#3cb44b",
+  "#ffe119",
+  "#4363d8",
+  "#f58231",
+  "#911eb4",
+  "#42d4f4",
+  "#f032e6",
+  "#bfef45",
+  "#fabed4",
+  "#469990",
+  "#dcbeff",
+  "#9A6324",
+  "#fffac8",
+  "#800000",
+  "#aaffc3",
+  "#808000",
+  "#ffd8b1",
+  "#000075",
+  "#a9a9a9",
+  "#ffffff",
+  "#000000",
+];
+
+var strokeDiv = document.getElementById("strokeDiv");
+var fillDiv = document.getElementById("fillDiv");
+
+(function () {
+  for (var i = 0; i < colorArr.length; i++) {
+    var colorDiv = document.createElement("div");
+    colorDiv.classList.add("swatchStroke");
+    colorDiv.style.backgroundColor = colorArr[i];
+    strokeDiv.appendChild(colorDiv);
+  }
+
+  for (var i = 0; i < colorArr.length; i++) {
+    var colorDiv = document.createElement("div");
+    colorDiv.classList.add("swatchFill");
+    colorDiv.style.backgroundColor = colorArr[i];
+    fillDiv.appendChild(colorDiv);
+  }
+})();
+
+var swatchStrokeArr = [...document.querySelectorAll(".swatchStroke")];
+var swatchFillArr = [...document.querySelectorAll(".swatchFill")];
+
+for (var i = 0; i < colorArr.length; i++) {
+  swatchStrokeArr[i].addEventListener("click", function (e) {
+    stroke = e.target.style.backgroundColor;
+  });
+}
+
+for (var i = 0; i < colorArr.length; i++) {
+  swatchFillArr[i].addEventListener("click", function (e) {
+    fill = e.target.style.backgroundColor;
+  });
+}
