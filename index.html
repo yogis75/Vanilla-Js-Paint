@@ -17,22 +17,37 @@
       <span data-type="freeHand" class="button">Free Hand</span>
       <span data-type="clearCanvas" class="button">Clear</span>
     </nav>
-    <div class="lineSpace">
-      <svg
-        data-type="canvas"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        version="1.1"
-        id="drawingBoard"
-        x="0px"
-        y="0px"
-        width="1050"
-        height="450"
-        viewBox="0 0 1050 450"
-        enable-background="new 0 0 1050 450"
-        xml:space="preserve"
-      ></svg>
-    </div>
+    <main class="wrapper">
+      <div class="lineSpace">
+        <svg
+          data-type="canvas"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          version="1.1"
+          id="drawingBoard"
+          x="0px"
+          y="0px"
+          width="1050"
+          height="450"
+          viewBox="0 0 1050 450"
+          enable-background="new 0 0 1050 450"
+          xml:space="preserve"
+        ></svg>
+      </div>
+      <div class="controls">
+        <div class="strokeWidthWrapper">
+          <label for="stroke">Stroke Width</label>
+          <input
+            type="range"
+            name="stroke"
+            min="1"
+            max="14"
+            value="2"
+            data-type="strokeSlider"
+          /><span data-type="strokeSliderValue">2</span>
+        </div>
+      </div>
+    </main>
     <script src="./script.js"></script>
   </body>
 </html>

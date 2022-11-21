@@ -7,6 +7,10 @@ var createCircle = document.querySelector("[data-type='circle']");
 var createEllipse = document.querySelector("[data-type='ellipse']");
 var createFreeHand = document.querySelector("[data-type='freeHand']");
 var clearCanvas = document.querySelector("[data-type='clearCanvas']");
+var strokeSlider = document.querySelector("[data-type='strokeSlider']");
+var strokeSliderValue = document.querySelector(
+  "[data-type='strokeSliderValue']"
+);
 
 var newElement;
 var elementType;
@@ -20,6 +24,11 @@ var fill = "none";
 var bufferSize;
 var strPath;
 var buffer = [];
+
+strokeSlider.oninput = function () {
+  strokeWidth = this.value;
+  strokeSliderValue.innerText = this.value;
+};
 
 document.addEventListener("click", function (e) {
   var itemType = e.target.dataset.type;
