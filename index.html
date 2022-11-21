@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
     <title>SVG Paint</title>
   </head>
@@ -27,19 +33,44 @@
           id="drawingBoard"
           x="0px"
           y="0px"
-          width="1050"
-          height="450"
-          viewBox="0 0 1050 450"
-          enable-background="new 0 0 1050 450"
+          width="1200"
+          height="600"
+          viewBox="0 0 1200 600"
+          enable-background="new 0 0 1200 600"
           xml:space="preserve"
         ></svg>
       </div>
       <div class="controls">
+        <div class="strokeColorWrapper">
+          <label for="stroke">Stroke</label>
+          <select name="stroke" data-type="strokeColor">
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="purple">Purple</option>
+            <option value="orange">Orange</option>
+          </select>
+        </div>
+        <div class="fillColorWrapper">
+          <label for="fill">Fill</label>
+          <select name="fill" data-type="fillColor">
+            <option value="none">None</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="purple">Purple</option>
+            <option value="orange">Orange</option>
+            <option value="black">Black</option>
+          </select>
+        </div>
         <div class="strokeWidthWrapper">
-          <label for="stroke">Stroke Width</label>
+          <label for="strokeWidth">Stroke Width</label>
           <input
             type="range"
-            name="stroke"
+            name="strokeWidth"
             min="1"
             max="14"
             value="2"

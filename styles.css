@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 svg {
   background-color: beige;
 }
@@ -30,7 +34,7 @@ nav {
 
 .controls {
   width: 300px;
-  height: 450px;
+  height: 600px;
   border: 1px solid;
 }
 
@@ -38,9 +42,16 @@ nav {
   display: flex;
 }
 
-.strokeWidthWrapper {
+.strokeWidthWrapper,
+.strokeColorWrapper,
+.fillColorWrapper {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
   padding-block: 1rem;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 }
