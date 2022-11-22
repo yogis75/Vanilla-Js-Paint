@@ -12,6 +12,12 @@ svg {
   background-color: beige;
 }
 
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 .button {
   padding: 0.2rem 0.5rem;
   cursor: pointer;
@@ -21,6 +27,7 @@ svg {
   margin-right: 5px;
   display: inline-block;
   cursor: pointer;
+  text-align: center;
 }
 
 /* Index2 */
@@ -28,9 +35,9 @@ svg {
   border: 1px solid;
 }
 
-nav {
+/* nav {
   margin-top: 0.6rem;
-}
+} */
 
 .controls {
   width: 300px;
@@ -54,13 +61,15 @@ nav {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  justify-content: flex-start;
+  gap: 1rem;
 }
 
 .swatchStroke,
 .swatchFill {
-  width: 25px;
-  height: 25px;
-  margin: 2px;
+  width: 30px;
+  height: 30px;
+  margin: 4px;
   border: 2px solid #757575;
   padding: 2px;
 }

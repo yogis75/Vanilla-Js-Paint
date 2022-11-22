@@ -1,5 +1,5 @@
 var drawingBoard = document.querySelector("#drawingBoard");
-var selectTool = document.querySelector(".selectTool");
+var selectTool = document.querySelector("[data-type='selectTool']");
 var svgNS = "http://www.w3.org/2000/svg";
 var createLine = document.querySelector("[data-type='line']");
 var createRect = document.querySelector("[data-type='rect']");
@@ -237,27 +237,55 @@ clearCanvas.addEventListener("click", function () {
   }
 });
 
-var colorArr = [
-  "#e6194B",
-  "#3cb44b",
-  "#ffe119",
-  "#4363d8",
-  "#f58231",
-  "#911eb4",
-  "#42d4f4",
-  "#f032e6",
-  "#bfef45",
-  "#fabed4",
-  "#469990",
-  "#dcbeff",
-  "#9A6324",
-  "#fffac8",
-  "#800000",
-  "#aaffc3",
-  "#808000",
-  "#ffd8b1",
-  "#000075",
-  "#a9a9a9",
+// var colorArr = [
+//   "#e6194B",
+//   "#3cb44b",
+//   "#ffe119",
+//   "#4363d8",
+//   "#f58231",
+//   "#911eb4",
+//   "#42d4f4",
+//   "#f032e6",
+//   "#bfef45",
+//   "#fabed4",
+//   "#469990",
+//   "#dcbeff",
+//   "#9A6324",
+//   "#fffac8",
+//   "#800000",
+//   "#aaffc3",
+//   "#808000",
+//   "#ffd8b1",
+//   "#000075",
+//   "#a9a9a9",
+//   "#ffffff",
+//   "#000000",
+// ];
+
+var strokeColorArr = [
+  "#ea5545",
+  "#f46a9b",
+  "#ef9b20",
+  "#edbf33",
+  "#ede15b",
+  "#bdcf32",
+  "#87bc45",
+  "#27aeef",
+  "#b33dc6",
+  "#ffffff",
+  "#000000",
+];
+
+var fillColorArr = [
+  "#fd7f6f",
+  "#7eb0d5",
+  "#b2e061",
+  "#bd7ebe",
+  "#ffb55a",
+  "#ffee65",
+  "#beb9db",
+  "#fdcce5",
+  "#8bd3c7",
   "#ffffff",
   "#000000",
 ];
@@ -266,17 +294,17 @@ var strokeDiv = document.getElementById("strokeDiv");
 var fillDiv = document.getElementById("fillDiv");
 
 (function () {
-  for (var i = 0; i < colorArr.length; i++) {
+  for (var i = 0; i < strokeColorArr.length; i++) {
     var colorDiv = document.createElement("div");
     colorDiv.classList.add("swatchStroke");
-    colorDiv.style.backgroundColor = colorArr[i];
+    colorDiv.style.backgroundColor = strokeColorArr[i];
     strokeDiv.appendChild(colorDiv);
   }
 
-  for (var i = 0; i < colorArr.length; i++) {
+  for (var i = 0; i < fillColorArr.length; i++) {
     var colorDiv = document.createElement("div");
     colorDiv.classList.add("swatchFill");
-    colorDiv.style.backgroundColor = colorArr[i];
+    colorDiv.style.backgroundColor = fillColorArr[i];
     fillDiv.appendChild(colorDiv);
   }
 })();
@@ -284,13 +312,13 @@ var fillDiv = document.getElementById("fillDiv");
 var swatchStrokeArr = [...document.querySelectorAll(".swatchStroke")];
 var swatchFillArr = [...document.querySelectorAll(".swatchFill")];
 
-for (var i = 0; i < colorArr.length; i++) {
+for (var i = 0; i < strokeColorArr.length; i++) {
   swatchStrokeArr[i].addEventListener("click", function (e) {
     stroke = e.target.style.backgroundColor;
   });
 }
 
-for (var i = 0; i < colorArr.length; i++) {
+for (var i = 0; i < fillColorArr.length; i++) {
   swatchFillArr[i].addEventListener("click", function (e) {
     fill = e.target.style.backgroundColor;
   });
