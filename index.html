@@ -10,6 +10,10 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
     <link rel="stylesheet" href="./styles.css" />
     <title>SVG Paint</title>
   </head>
@@ -41,10 +45,46 @@
         ></svg>
       </div>
       <div class="controls">
-        <p>Stroke color</p>
-        <div id="strokeDiv"></div>
-        <p>Fill color</p>
-        <div id="fillDiv"></div>
+        <div class="tools">
+          <!-- <span data-type="selectTool" class="selectTool button">Cursor</span>
+          <span data-type="line" class="button">Line</span>
+          <span data-type="rect" class="button">Rectangle</span>
+          <span data-type="circle" class="button">Circle</span>
+          <span data-type="ellipse" class="button">Ellipse</span>
+          <span data-type="freeHand" class="button">Free Hand</span>
+          <span data-type="clearCanvas" class="button">Clear</span> -->
+          <span class="material-symbols-outlined button" data-type="selectTool">
+            arrow_selector_tool
+          </span>
+          <span class="material-symbols-outlined button" data-type="eraser">
+            backspace
+          </span>
+          <span class="material-symbols-outlined button" data-type="line">
+            line_start
+          </span>
+          <span class="material-symbols-outlined button" data-type="rect">
+            rectangle
+          </span>
+          <span class="material-symbols-outlined button" data-type="circle">
+            circle
+          </span>
+          <span class="material-symbols-outlined button" data-type="ellipse">
+            exposure_zero
+          </span>
+          <span class="material-symbols-outlined button" data-type="freeHand">
+            gesture
+          </span>
+          <span
+            class="material-symbols-outlined button"
+            data-type="clearCanvas"
+          >
+            delete
+          </span>
+        </div>
+        <div>
+          <p>Stroke color</p>
+          <div id="strokeDiv"></div>
+        </div>
         <div class="strokeWidthWrapper">
           <label for="strokeWidth">Stroke Width</label>
           <input
@@ -55,6 +95,10 @@
             value="2"
             data-type="strokeSlider"
           /><span data-type="strokeSliderValue">2</span>
+        </div>
+        <div>
+          <p>Fill color</p>
+          <div id="fillDiv"></div>
         </div>
       </div>
     </main>
