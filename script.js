@@ -1,6 +1,7 @@
 var drawingBoard = document.querySelector("#drawingBoard");
 var selectTool = document.querySelector("[data-type='selectTool']");
 var svgNS = "http://www.w3.org/2000/svg";
+var deleteTool = document.querySelector("[data-type='eraser']");
 var createLine = document.querySelector("[data-type='line']");
 var createRect = document.querySelector("[data-type='rect']");
 var createCircle = document.querySelector("[data-type='circle']");
@@ -18,9 +19,9 @@ var rectStartX;
 var rectStartY;
 var drawing = false;
 var bRect = drawingBoard.getBoundingClientRect();
-var strokeWidth = 2;
+var strokeWidth = 4;
 var stroke = "black";
-var fill = "none";
+var fill = "white";
 var bufferSize;
 var strPath;
 var buffer = [];
@@ -33,23 +34,23 @@ strokeSlider.oninput = function () {
 document.addEventListener("click", function (e) {
   var itemType = e.target.dataset.type;
   switch (itemType) {
+    case "eraser":
+      drawingBoard.addEventListener("click", deleteElement);
+      drawingBoard.style.cursor = "no-drop";
+      break;
     case "line":
-      elementType = "line";
-      break;
     case "rect":
-      elementType = "rect";
-      break;
     case "circle":
-      elementType = "circle";
-      break;
     case "ellipse":
-      elementType = "ellipse";
-      break;
     case "freeHand":
-      elementType = "path";
+      drawingBoard.removeEventListener("click", deleteElement);
+      if (itemType !== "freeHand") {
+        elementType = itemType;
+      } else {
+        elementType = "path";
+      }
+
       break;
-    default:
-      return;
   }
 });
 
@@ -141,6 +142,7 @@ function onMouseMove(event) {
       case "path":
         appendToBuffer(getMousePosition(event));
         updateSvgPath();
+        break;
     }
   }
 }
@@ -288,6 +290,7 @@ var fillColorArr = [
   "#8bd3c7",
   "#ffffff",
   "#000000",
+  "none",
 ];
 
 var strokeDiv = document.getElementById("strokeDiv");
@@ -323,3 +326,11 @@ for (var i = 0; i < fillColorArr.length; i++) {
     fill = e.target.style.backgroundColor;
   });
 }
+
+var deleteElement = function (e) {
+  if (e.target.tagName === "svg") {
+    return;
+  } else {
+    drawingBoard.removeChild(e.target);
+  }
+};

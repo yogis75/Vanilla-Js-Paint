@@ -30,14 +30,9 @@ svg {
   text-align: center;
 }
 
-/* Index2 */
 #drawingBoard {
   border: 1px solid;
 }
-
-/* nav {
-  margin-top: 0.6rem;
-} */
 
 .controls {
   width: 300px;
