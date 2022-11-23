@@ -77,3 +77,14 @@ svg {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.noFillDiv {
+  text-align: center;
+  margin-top: 2px;
+}
+
+.noFill {
+  border: 1px solid #757575;
+  padding: 1px 5px;
+  cursor: pointer;
+}

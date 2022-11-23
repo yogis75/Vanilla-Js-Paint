@@ -12,6 +12,7 @@ var strokeSlider = document.querySelector("[data-type='strokeSlider']");
 var strokeSliderValue = document.querySelector(
   "[data-type='strokeSliderValue']"
 );
+var noFill = document.querySelector("[data-type='noFill']");
 
 var newElement;
 var elementType;
@@ -21,10 +22,14 @@ var drawing = false;
 var bRect = drawingBoard.getBoundingClientRect();
 var strokeWidth = 4;
 var stroke = "black";
-var fill = "white";
+var fill = "none";
 var bufferSize;
 var strPath;
 var buffer = [];
+
+noFill.addEventListener("click", function () {
+  fill = "none";
+});
 
 strokeSlider.oninput = function () {
   strokeWidth = this.value;
@@ -37,6 +42,7 @@ document.addEventListener("click", function (e) {
     case "eraser":
       drawingBoard.addEventListener("click", deleteElement);
       drawingBoard.style.cursor = "no-drop";
+      stopDrawing();
       break;
     case "line":
     case "rect":
@@ -49,7 +55,6 @@ document.addEventListener("click", function (e) {
       } else {
         elementType = "path";
       }
-
       break;
   }
 });
@@ -98,7 +103,7 @@ function onMouseDown(event) {
       newElement.setAttribute("cy", rectStartY);
       break;
     case "path":
-      bufferSize = 4;
+      bufferSize = 16;
       newElement = document.createElementNS(svgNS, "path");
       newElement.setAttribute("fill", "none");
       newElement.setAttribute("stroke", stroke);
@@ -160,7 +165,7 @@ function getMousePosition(e) {
 
 function appendToBuffer(pt) {
   buffer.push(pt);
-  while (buffer.length > bufferSize * 1.4) {
+  while (buffer.length > bufferSize * 1.3) {
     buffer.shift();
   }
 }
@@ -290,7 +295,6 @@ var fillColorArr = [
   "#8bd3c7",
   "#ffffff",
   "#000000",
-  "none",
 ];
 
 var strokeDiv = document.getElementById("strokeDiv");
@@ -321,7 +325,7 @@ for (var i = 0; i < strokeColorArr.length; i++) {
   });
 }
 
-for (var i = 0; i < fillColorArr.length; i++) {
+for (var i = 0; i < swatchFillArr.length; i++) {
   swatchFillArr[i].addEventListener("click", function (e) {
     fill = e.target.style.backgroundColor;
   });
