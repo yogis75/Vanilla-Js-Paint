@@ -13,18 +13,14 @@ var strokeSliderValue = document.querySelector(
   "[data-type='strokeSliderValue']"
 );
 var noFill = document.querySelector("[data-type='noFill']");
-
-var newElement;
-var elementType;
-var rectStartX;
-var rectStartY;
+var startX, startY, endX, endY, dragElement;
+var newElement, elementType, rectStartX, rectStartY;
 var drawing = false;
 var bRect = drawingBoard.getBoundingClientRect();
 var strokeWidth = 4;
 var stroke = "black";
 var fill = "none";
-var bufferSize;
-var strPath;
+var bufferSize, strPath;
 var buffer = [];
 
 noFill.addEventListener("click", function () {
@@ -38,23 +34,33 @@ strokeSlider.oninput = function () {
 
 document.addEventListener("click", function (e) {
   var itemType = e.target.dataset.type;
+
   switch (itemType) {
-    case "eraser":
-      drawingBoard.addEventListener("click", deleteElement);
-      drawingBoard.style.cursor = "no-drop";
-      stopDrawing();
-      break;
     case "line":
     case "rect":
     case "circle":
     case "ellipse":
     case "freeHand":
       drawingBoard.removeEventListener("click", deleteElement);
+      drawingBoard.removeEventListener("mousedown", dragMouseDown);
+      drawingBoard.removeEventListener("mousemove", dragMouseMove);
       if (itemType !== "freeHand") {
         elementType = itemType;
       } else {
         elementType = "path";
       }
+      break;
+    case "selectTool":
+      // drag elements
+      drawingBoard.addEventListener("mousedown", dragMouseDown);
+      drawingBoard.removeEventListener("click", deleteElement);
+      drawingBoard.addEventListener("mouseup", stopDragging);
+      break;
+    case "eraser":
+      drawingBoard.addEventListener("click", deleteElement);
+      drawingBoard.style.cursor = "no-drop";
+      stopDrawing();
+      stopDragging();
       break;
   }
 });
@@ -75,39 +81,26 @@ function onMouseDown(event) {
       newElement.setAttribute("y1", y1);
       newElement.setAttribute("x2", x2);
       newElement.setAttribute("y2", y2);
-      newElement.setAttribute("stroke", stroke);
-      newElement.setAttribute("stroke-width", strokeWidth);
       break;
     case "rect":
       newElement = document.createElementNS(svgNS, "rect");
-      newElement.setAttribute("stroke", stroke);
-      newElement.setAttribute("fill", fill);
-      newElement.setAttribute("stroke-width", strokeWidth);
       newElement.setAttribute("x", rectStartX);
       newElement.setAttribute("y", rectStartY);
       break;
     case "ellipse":
       newElement = document.createElementNS(svgNS, "ellipse");
-      newElement.setAttribute("stroke", stroke);
-      newElement.setAttribute("fill", fill);
-      newElement.setAttribute("stroke-width", strokeWidth);
       newElement.setAttribute("cx", rectStartX);
       newElement.setAttribute("cy", rectStartY);
       break;
     case "circle":
       newElement = document.createElementNS(svgNS, "circle");
-      newElement.setAttribute("stroke", stroke);
-      newElement.setAttribute("fill", fill);
-      newElement.setAttribute("stroke-width", strokeWidth);
       newElement.setAttribute("cx", rectStartX);
       newElement.setAttribute("cy", rectStartY);
       break;
     case "path":
-      bufferSize = 16;
+      bufferSize = 6;
       newElement = document.createElementNS(svgNS, "path");
-      newElement.setAttribute("fill", "none");
-      newElement.setAttribute("stroke", stroke);
-      newElement.setAttribute("stroke-width", strokeWidth);
+      fill = "none";
       buffer = [];
       var pt = getMousePosition(event);
       appendToBuffer(pt);
@@ -118,6 +111,10 @@ function onMouseDown(event) {
       return;
   }
 
+  newElement.setAttribute("stroke", stroke);
+  newElement.setAttribute("fill", fill);
+  newElement.setAttribute("stroke-width", strokeWidth);
+  newElement.setAttribute("class", "dragable");
   drawingBoard.appendChild(newElement);
 }
 
@@ -244,31 +241,6 @@ clearCanvas.addEventListener("click", function () {
   }
 });
 
-// var colorArr = [
-//   "#e6194B",
-//   "#3cb44b",
-//   "#ffe119",
-//   "#4363d8",
-//   "#f58231",
-//   "#911eb4",
-//   "#42d4f4",
-//   "#f032e6",
-//   "#bfef45",
-//   "#fabed4",
-//   "#469990",
-//   "#dcbeff",
-//   "#9A6324",
-//   "#fffac8",
-//   "#800000",
-//   "#aaffc3",
-//   "#808000",
-//   "#ffd8b1",
-//   "#000075",
-//   "#a9a9a9",
-//   "#ffffff",
-//   "#000000",
-// ];
-
 var strokeColorArr = [
   "#ea5545",
   "#f46a9b",
@@ -331,10 +303,51 @@ for (var i = 0; i < swatchFillArr.length; i++) {
   });
 }
 
-var deleteElement = function (e) {
+function deleteElement(e) {
   if (e.target.tagName === "svg") {
     return;
   } else {
     drawingBoard.removeChild(e.target);
   }
-};
+}
+
+function dragMouseDown(e) {
+  var dE = e.target;
+  if (dE.classList.contains("dragable")) {
+    startX = e.offsetX;
+    startY = e.offsetY;
+    dragElement = e.target;
+    console.log(dragElement.tagName);
+    switch (dragElement.tagName) {
+      case "rect":
+        endX = +dragElement.getAttributeNS(null, "x");
+        endY = +dragElement.getAttributeNS(null, "y");
+        break;
+      case "circle":
+      case "ellipse":
+        endX = +dragElement.getAttributeNS(null, "cx");
+        endY = +dragElement.getAttributeNS(null, "cy");
+        break;
+    }
+    drawingBoard.addEventListener("mousemove", dragMouseMove);
+  }
+}
+
+function dragMouseMove(event) {
+  var x = event.offsetX;
+  var y = event.offsetY;
+  switch (dragElement.tagName) {
+    case "rect":
+      dragElement.setAttributeNS(null, "x", endX + x - startX);
+      dragElement.setAttributeNS(null, "y", endY + y - startY);
+      break;
+    case "circle":
+    case "ellipse":
+      dragElement.setAttributeNS(null, "cx", endX + x - startX);
+      dragElement.setAttributeNS(null, "cy", endY + y - startY);
+      break;
+  }
+}
+function stopDragging() {
+  drawingBoard.removeEventListener("mousemove", dragMouseMove);
+}
